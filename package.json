@@ -1,0 +1,17 @@
+{
+  "name": "jam-list",
+  "version": "1.0.0",
+  "description": "Express CRUD app for Song/Setlist management",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ryan Wilson",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.12.4",
+    "express": "^4.12.4",
+    "express-session": "^1.11.2",
+    "mongoose": "^4.0.3"
+  }
+}
