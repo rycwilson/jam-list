@@ -9,6 +9,7 @@
   "author": "Ryan Wilson",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^0.8.3",
     "body-parser": "^1.12.4",
     "express": "^4.12.4",
     "express-session": "^1.11.2",
