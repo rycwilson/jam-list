@@ -1,0 +1,34 @@
+.navbar {
+  background-color: #27556C;
+}
+
+#nav-title {
+  color: white;
+}
+
+#nav-dropdown {
+  color: white;
+}
+
+.navbar-default .navbar-nav>.open>a:focus  {
+    background-color: #27556C;
+}
+
+.alert {
+  display: none;
+  margin-bottom: 0px;
+}
+
+.panel-info>.panel-heading {
+  border-color: grey;
+}
+
+.panel-title {
+  font-size: 20px;
+}
+
+#login-heading {
+  background-color: #27556C;
+  border-color: #27556C;
+  color: white;
+}

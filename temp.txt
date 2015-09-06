@@ -1,0 +1,11 @@
+HTTP/1.1 302 Moved Temporarily
+X-Powered-By: Express
+Location: /home
+Vary: Accept
+Content-Type: text/plain; charset=utf-8
+Content-Length: 39
+set-cookie: connect.sid=s%3AXI33l7ungXnfXOvoE7LMQ4L2c6vYeZ2H.seCXenA9d486ICFE8Nig6XRjp%2FnSZpco4JVi2MutHvQ; Path=/; HttpOnly
+Date: Mon, 25 May 2015 00:55:26 GMT
+Connection: keep-alive
+
+Moved Temporarily. Redirecting to /home
