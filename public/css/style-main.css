@@ -1,4 +1,4 @@
-.navbar {
+/*.navbar {
   background-color: #27556C;
 }
 
@@ -12,23 +12,33 @@
 
 .navbar-default .navbar-nav>.open>a:focus  {
     background-color: #27556C;
-}
+}*/
 
-.alert {
+/*.alert {
   display: none;
   margin-bottom: 0px;
 }
 
+.panel {
+  border-color: #27556C
+}
 .panel-info>.panel-heading {
   border-color: grey;
-}
+}*/
 
 .panel-title {
   font-size: 20px;
 }
+/*
+.panel-heading {
+  background-image: linear-gradient(to bottom, #8CADBD 0, #27556C 100%);
+}
+
+#login-box {
+  border-color: #27556C
+}
 
 #login-heading {
-  background-color: #27556C;
-  border-color: #27556C;
   color: white;
-}
+  background-color: #27556C
+}*/
