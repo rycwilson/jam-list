@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Sign up</title>
-  <!-- jQuery -->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script src='/vendor/jquery/dist/jquery.min.js'></script>
+  <script src='/vendor/bootstrap/dist/js/bootstrap.min.js'></script>
+  <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/static/css/style-main.css">
 </head>
 <body>
   <div class='container'>
@@ -19,9 +19,9 @@
           <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="/login">Cancel</a></div>
         </div>
         <div class="panel-body" >
-          <form action='/users' method='post' id="signupform" class="form-horizontal" role="form">
+          <form action='/users' method='post' id="signup-form" class="form-horizontal" role="form">
 
-            <div id="signupalert" style="display:none" class="alert alert-danger">
+            <div id="signup-alert" style="display:none" class="alert alert-danger">
               <p>Error:</p>
               <span></span>
             </div>
@@ -36,13 +36,13 @@
             <div class="form-group">
               <label for="user[first]" class="col-md-3 control-label">First Name</label>
               <div class="col-md-9">
-                <input type="text" class="form-control" name="user[first]" placeholder="First Name">
+                <input type="text" class="form-control" name="user[firstName]" placeholder="First Name">
               </div>
             </div>
             <div class="form-group">
               <label for="user[last]" class="col-md-3 control-label">Last Name</label>
               <div class="col-md-9">
-                <input type="text" class="form-control" name="user[last]" placeholder="Last Name">
+                <input type="text" class="form-control" name="user[lastName]" placeholder="Last Name">
               </div>
             </div>
             <div class="form-group">

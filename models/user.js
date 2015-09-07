@@ -1,11 +1,11 @@
-// why require these in this file?
-// bcrypt because we don't need it anywhere else
-// re: mongoose, because we're defining a schema; need mongoose for that
+/*
+  User model
+*/
+var mongoose = require("mongoose");
 var bcrypt = require("bcrypt");
 var salt = bcrypt.genSaltSync(10);
-var mongoose = require("mongoose");
 
-var userSchema = new mongoose.Schema({
+var UserSchema = new mongoose.Schema({
   email: {
     type: String,
     lowercase: true,
@@ -28,46 +28,49 @@ var userSchema = new mongoose.Schema({
   }
 });
 
-// Static methods operate at the class level
-// this refers to userSchema
-userSchema.statics.createSecure = function (user_params, cb) {
-  // saves the user email and hashs the password
+/*
+  Static methods operate at the class level
+  this points to UserSchema
+*/
+UserSchema.statics.createSecure = function (user, cb) {
+  // create the user account, hash the password
+  // cb = function(err, newUser)
   var _this = this;
-  bcrypt.genSalt(function (err, salt) {
-    bcrypt.hash(user_params.password, salt, function (err, hash) {
+  bcrypt.genSalt(function (saltErr, salt) {
+    if (saltErr) { return cb(saltErr, null); }
+    bcrypt.hash(user.password, salt, function (hashErr, hash) {
+      if (hashErr) { return cb(hashErr, null); }
       _this.create({
-        email: user_params.email,
-        firstName: user_params.first,
-        lastName: user_params.last,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
         passwordDigest: hash
-       }, cb);  // cb = function(err, user)
+      }, cb);
     });
   });
 };
 
-userSchema.statics.encryptPassword = function (password) {
-  var hash = bcrypt.hashSync(password, salt);
-  return hash;
-};
+// UserSchema.statics.encryptPassword = function (password) {
+//   var hash = bcrypt.hashSync(password, salt);
+//   return hash;
+// };
 
-userSchema.statics.authenticate = function (user_params, cb) {
-  this.findOne({email: user_params.email}, function (err, found_user) {
-    console.log('Found user: ', found_user);
-    if (found_user === null) {  // no user found
-      cb('No account associated with that email address', null);
-    } else if (found_user.checkPassword(user_params.password)) {  // password matches
-      console.log('Authenticated user (in userSchema.statics.authenticate): ', found_user);
-      cb(null, found_user);
+UserSchema.statics.authenticate = function (user, cb) {
+  this.findOne({ email: user.email }, function (err, foundUser) {
+    if (!foundUser) {
+      return cb('No account associated with that email address', null);
+    } else if (foundUser.checkPassword(user.password)) {
+      return cb(null, foundUser);
     } else {  // bad password
-      cb('Password does not match', null);
+      return cb('Invalid password', null);
     }
   });
 };
 
-userSchema.methods.checkPassword = function(password) {
+UserSchema.methods.checkPassword = function(password) {
   return bcrypt.compareSync(password, this.passwordDigest);
 };
 
-var User = mongoose.model("User", userSchema);
+var User = mongoose.model('User', UserSchema);
 
 module.exports = User;

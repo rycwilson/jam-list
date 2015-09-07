@@ -35,19 +35,17 @@ app.use("/", function (req, res, next) {
   };
   // fetches the user associated with the session
   req.currentUser = function (cb) {
-     db.User.
-      findOne({
-          // req.session.userId was set at log in
-          _id: req.session.userId
-      },
+    db.User.findOne({ _id: req.session.userId },
       function (err, user) {
+        if (err) { return cb(err, null); }
         console.log('req.user (before assigned db user): ', req.user);
-        // here the result of a db query is saved in req.user
         req.user = user;
         console.log('req.user: ', req.user);
         cb(null, user);
-      });
+      }
+    );
   };
+  // logout
   req.logout = function () {
     req.session.userId = null;
     req.user = null;
@@ -81,6 +79,7 @@ app.get('/logout', function (req, res) {
 app.get('/user/:id', function (req, res) {
   // currentUser uses req.session.userId to identify user,
   // then sets req.user = user
+  console.log('here we are');
   req.currentUser(function (err, user) {
     res.send("Welcome, " + user.email);
   });
@@ -98,18 +97,14 @@ app.get('/songs', function (req, res) {
 });
 
 app.post('/login', function (req, res) {
-  console.log('/login POST request');
-  console.log('req.body.user: ', req.body.user);
   var user = req.body.user;
-  db.User.authenticate(user, function (err, auth_user) {
+  db.User.authenticate(user, function (err, authUser) {
     if (err) {
-      console.log('Error authenticating user: ', err);
-      // return so the subsequent code doesn't execute
-      return res.send(500, 'Error authenticating user: ' + err);
+      return res.status(500).send(err);
     }
     console.log('req.session (before login): ', req.session);
     console.log("Logging in...");
-    req.login(auth_user);
+    req.login(authUser);
     console.log('req.session (after login): ', req.session);
     req.flash('login-ok', 'Signed in successfully!');
     res.redirect('/songs');
@@ -117,17 +112,18 @@ app.post('/login', function (req, res) {
 });
 
 app.post('/users', function (req, res) {
-  var user = req.body.user;
-  db.User.
-    createSecure(user, function (err, new_user) {
-      if (new_user) {
-        console.log('New user created (User.createSecure): ', new_user);
-        res.redirect('/user/' + new_user._id);
+  db.User.createSecure(req.body.user,
+    function (err, newUser) {
+      if (newUser) {
+        req.login(newUser);
+        console.log('Logged in user: ', newUser.email);
+        res.redirect('/user/' + newUser._id);
       }
       else {  // validation(s) failed; add a flash mesg here
         res.redirect('/signup');
       }
-    });
+    }
+  );
 });
 
 app.listen(3000, function () {
