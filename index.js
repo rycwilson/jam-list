@@ -55,18 +55,12 @@ app.use("/", function (req, res, next) {
 
 app.get('/', function (req, res) {
   console.log('req.session (root request): ', req.session);
-  res.redirect('/login');
+  res.redirect('/welcome');
 });
 
-// user#new
-app.get('/signup', function (req, res) {
-  res.sendFile(path.join(views, 'signup.html'));
-});
-
-app.get('/login', function (req, res) {
-  if (req.session.userId)
-  console.log('hello?');
-  res.sendFile(path.join(views, 'login.html'));
+// welcome page
+app.get('/welcome', function (req, res) {
+  res.sendFile(path.join(views, 'welcome.html'));
 });
 
 app.get('/logout', function (req, res) {
