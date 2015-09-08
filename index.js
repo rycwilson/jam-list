@@ -91,17 +91,21 @@ app.get('/songs', function (req, res) {
 });
 
 app.post('/login', function (req, res) {
-  var user = req.body.user;
-  db.User.authenticate(user, function (err, authUser) {
-    if (err) {
-      return res.status(500).send(err);
-    }
+  db.User.authenticate(req.body.user, function (err, authUser) {
     console.log('req.session (before login): ', req.session);
-    console.log("Logging in...");
-    req.login(authUser);
-    console.log('req.session (after login): ', req.session);
-    req.flash('login-ok', 'Signed in successfully!');
-    res.redirect('/songs');
+    if (authUser) {
+      req.login(authUser);
+      console.log('req.session (after login): ', req.session);
+      req.flash('login-ok', 'Signed in successfully!');
+      res.send('ok');
+    }
+    else switch (err) {
+      case 403:
+        res.status(403).send('Invalid password');
+        break;
+      case 404:
+        res.status(404).send('No account associated with this address');
+    }
   });
 });
 

@@ -58,11 +58,11 @@ UserSchema.statics.createSecure = function (user, cb) {
 UserSchema.statics.authenticate = function (user, cb) {
   this.findOne({ email: user.email }, function (err, foundUser) {
     if (!foundUser) {
-      return cb('No account associated with that email address', null);
+      return cb(404, null);
     } else if (foundUser.checkPassword(user.password)) {
       return cb(null, foundUser);
     } else {  // bad password
-      return cb('Invalid password', null);
+      return cb(403, null);
     }
   });
 };

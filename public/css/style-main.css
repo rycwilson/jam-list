@@ -29,6 +29,11 @@
 .panel-title {
   font-size: 20px;
 }
+
+.help-block {
+  color: #a94442;
+}
+
 /*
 .panel-heading {
   background-image: linear-gradient(to bottom, #8CADBD 0, #27556C 100%);
