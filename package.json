@@ -2,8 +2,9 @@
   "name": "jam-list",
   "version": "1.0.0",
   "description": "Express CRUD app for Song/Setlist management",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ryan Wilson",
@@ -16,6 +17,7 @@
     "express": "^4.12.4",
     "express-flash": "git://github.com/RGBboy/express-flash.git",
     "express-session": "^1.11.2",
+    "ejs": "^2.3.4",
     "mongoose": "^4.0.3",
     "mongoose-repl": "^0.1.8"
   }

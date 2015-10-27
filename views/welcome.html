@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
+  <title>Welcome</title>
   <script src='/vendor/jquery/dist/jquery.min.js'></script>
   <script src='/vendor/bootstrap/dist/js/bootstrap.min.js'></script>
-  <script src='/vendor/bootstrap-validator/dist/validator.min.js'></script>
+  <script src='/vendor/validator/validator.js'></script>
   <script src='/static/javascript/welcome.js'></script>
   <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="/static/css/style-main.css">
+  <link rel="stylesheet" href="/static/css/main.css">
 </head>
 <body class="container">
 
@@ -32,7 +32,7 @@
                 <i class="glyphicon glyphicon-user"></i>
               </span>
               <input type='email' id="login-email" class="form-control"
-                     name="user[email]"
+                     name="email"
                      placeholder="email address" autofocus required
                      data-error='valid email required'
                      data-delay='1000000'>
@@ -46,7 +46,7 @@
               </span>
 
               <input type="password" id="login-password" class="form-control"
-                     name="user[password]"
+                     name="password"
                      placeholder="password" required
                      data-error='password required'>
             </div>

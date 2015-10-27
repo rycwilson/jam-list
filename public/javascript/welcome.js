@@ -7,18 +7,15 @@ $(function() {
 
   $('#login-form').on('submit', function (e) {
     e.preventDefault();
-    // $(this).find('#login-email').val() returns undefined
+    // $(this).find('#login-email').val() returns undefined - ?
     var loginUser = {
-      user: {
-        email: $(this).find("[type='email']").val(),
-        password: $(this).find('#login-password').val()
-      }
+      email: $(this).find("[type='email']").val(),
+      password: $(this).find('#login-password').val()
     };
-    $.post('/login', loginUser, function (res, status) {
-      // success
-      window.location.replace('/songs');
+    $.post('/sessions', {user: loginUser}, function (data, status) {
+      window.location.href = '/home';
     })
-      .fail(function (res, status) {
+      .fail(function (data, status) {
         switch (res.status) {
           case 403:
             $('#password-error-msg').text(res.responseText);
