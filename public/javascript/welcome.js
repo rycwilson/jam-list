@@ -8,11 +8,14 @@ $(function() {
   $('#login-form').on('submit', function (e) {
     e.preventDefault();
     // $(this).find('#login-email').val() returns undefined - ?
+
     var loginUser = {
       email: $(this).find("[type='email']").val(),
       password: $(this).find('#login-password').val()
     };
-    $.post('/sessions', {user: loginUser}, function (data, status) {
+
+    $.post('/sessions', { user: loginUser }, function (data, status) {
+      // The user is returned - do anything with him?
       window.location.href = '/home';
     })
       .fail(function (data, status) {

@@ -5,9 +5,9 @@ var express = require('express'),
     connFlash = require('connect-flash'),
     flash = require('express-flash'),
     ejs = require('ejs'),
-    db = require('./models'),
     path = require('path'),
-    views = path.join(__dirname, 'views');
+    views = path.join(__dirname, 'views'),
+    db = require('./models');
 
 // ejs templating
 app.set('view engine', 'ejs');
@@ -30,9 +30,10 @@ app.use("/", function (req, res, next) {
   // create a session
   req.login = function (user) {
     req.session.userId = user._id;
+    console.log('req.session.userId: ', req.session.userId);
   };
   // fetches the user associated with the session
-  req.currentUser = function (cb) {
+  req.getCurrentUser = function (cb) {
     db.User.findOne({ _id: req.session.userId },
       function (err, user) {
         if (err) { return cb(err, null); }
@@ -76,10 +77,12 @@ app.get('/home', function (req, res) {
   // once already during login.  Count page views in req.session
   if (req.session.userId) {
     db.User.findOne({_id: req.session.userId}, function (err, user) {
-      res.render('home.ejs', {user: user.email, message: req.flash('login-ok')});
+      res.render('home.ejs', { user: user.email, message: req.flash('login-ok') });
     });
   }
-  else res.redirect('/welcome');
+  else {
+    res.redirect('/welcome');
+  }
 });
 
 app.post('/sessions', function (req, res) {
@@ -117,6 +120,22 @@ app.post('/users', function (req, res) {
       else {  // validation(s) failed; add a flash mesg here
         res.redirect('/signup');
       }
+    }
+  );
+});
+
+app.get('/songs', function (req, res) {
+  db.Song.find({}, function (err, songs) {
+    if (err) { console.log(err); }
+    res.send(songs);
+  });
+});
+
+app.post('/songs', function (req, res) {
+  db.Song.create({ title: req.body.song.title, artist: req.body.song.artist },
+    function (err, song) {
+      if (err) { return console.log(err); }
+      res.send(song);
     }
   );
 });
