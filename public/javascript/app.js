@@ -26,6 +26,12 @@ View.init = function() {
     });
   });
 
+  // tabs
+  $('#navTabs a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+  });
+
 };
 
 

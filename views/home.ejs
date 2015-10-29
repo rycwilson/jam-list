@@ -12,14 +12,16 @@
 </head>
 <body>
   <nav class="navbar navbar-default">
-    <div class="container">
-      <div class='row'>
+    <div class="container-fluid">
+      <!-- <div class='row'> -->
         <div class='col-md-2'>
           <div class="navbar-header">
-            <a class="navbar-brand" id="nav-title" href="#"><strong>The Jam List</strong></a>
+            <a class="navbar-brand" id="nav-title" href="#">
+              <strong>The Jam List</strong>
+            </a>
           </div>
         </div>
-        <div class='col-md-6'>
+        <div class='col-md-4'>
           <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
               <input type="text" class="form-control" placeholder="Search">
@@ -28,6 +30,10 @@
           </form>
         </div>
         <div class='col-md-4'>
+          <% if (message) %>
+          <div class="alert alert-success text-center"><%= message %></div>
+        </div>
+        <div class='col-md-2'>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" id='nav-dropdown' data-toggle="dropdown" role="button" aria-expanded="false"><%= user %><span class="caret"></span></a>
@@ -39,10 +45,100 @@
             </li>
           </ul>
         </div>
-      </div>
-    </div><!-- /.container-fluid -->
+     <!--  </div> -->
+    </div> <!-- container -->
   </nav>
-  <% if (message) %>
-    <div class="alert alert-success text-center"><%= message %></div>
+
+  <div class="container">
+    <div class="col-md-6">
+
+      <ul class="nav nav-tabs" role="tablist">
+
+        <li role="presentation" class="active">
+          <a href="#songs-tab" aria-controls="songs-tab"
+              role="tab" data-toggle="tab">
+            Songs
+          </a>
+        </li>
+
+        <li role="presentation">
+          <a href="#setlists" aria-controls="setlists"
+              role="tab" data-toggle="tab">
+            Setlists
+          </a>
+        </li>
+
+      </ul>
+
+       <!-- Tab panes -->
+      <div class="tab-content">
+
+        <div role="tabpanel" class="tab-pane active" id="songs-tab">
+
+          <form class='form-inline' style='margin-top: 20px'>
+            <div class='form-group'>
+              <label for="new-song-title">Title: </label>
+              <input type="text" class='form-control' id='new-song-title'
+                placeholder='song title'>
+              <label for="new-song-artist"> Artist: </label>
+              <input type="text" class='form-control' id='new-song-artist'
+                placeholder='song artist'>
+              <button id='song-submit' class='btn btn-default'>
+                <span class='glyphicon glyphicon-plus'</span>
+              </button>
+            </div>
+          </form>
+
+          <ul id='songs-list'>
+
+          </ul>
+
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="setlists">
+
+        </div>
+
+      </div>
+
+    </div>  <!-- col-md-6 -->
+
+    <div class="col-md-6">
+
+      <ul class="nav nav-tabs" role="tablist">
+
+        <li role="presentation" class="active">
+          <a href="#lyrics" aria-controls="lyrics" role="tab" data-toggle="tab">
+            Lyrics
+          </a>
+        </li>
+
+        <li role="presentation">
+          <a href="#chords" aria-controls="chords" role="tab" data-toggle="tab">
+            Chords
+          </a>
+        </li>
+
+        <li role="presentation">
+          <a href="#chords" aria-controls="spotify" role="tab" data-toggle="tab">
+            Spotify
+          </a>
+        </li>
+
+      </ul>
+
+      <div role="tabpanel" class="tab-pane" id="lyrics">
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="chords">
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="spotify">
+      </div>
+
+    </div>  <!-- col-md-6 -->
+
+  </div>  <!-- container -->
+
 </body>
 </html>
