@@ -1,9 +1,9 @@
 #### To get started:
 
-- bower install
+1. bower install
 
-- npm install
+2. npm install
 
-- nodemon
+3. nodemon
 
-- go to localhost:300
+4. go to localhost:3000
