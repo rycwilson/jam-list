@@ -1,12 +1,5 @@
 $(function() {
 
-  // this changes underscore to use {{ }} delimiters
-  _.templateSettings = {
-    evaluate:    /\{\{(.+?)\}\}/g,
-    interpolate: /\{\{=(.+?)\}\}/g,
-    escape:      /\{\{-(.+?)\}\}/g
-  };
-
   View.init();
   Song.all();
 
@@ -16,8 +9,16 @@ $(function() {
     }, 3000);
   });
 
+  // this changes underscore to use {{ }} delimiters
+  _.templateSettings = {
+    evaluate:    /\{\{(.+?)\}\}/g,
+    interpolate: /\{\{=(.+?)\}\}/g,
+    escape:      /\{\{-(.+?)\}\}/g
+  };
+
 });
 
+// View class
 function View() { }
 
 View.render = function (songs) {

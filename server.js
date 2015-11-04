@@ -59,7 +59,7 @@ app.get('/', function (req, res) {
 
 // site welcome
 app.get('/welcome', function (req, res) {
-  res.sendFile(path.join(views, 'welcome.html'));
+  res.render('welcome.ejs', { view: 'login', data: null, status: null });
 });
 
 // user#show
@@ -110,16 +110,18 @@ app.delete('/sessions', function (req, res) {
 });
 
 app.post('/users', function (req, res) {
-  db.User.createSecure(req.body.user,
+  db.User.createSecure( req.body.user,
     function (err, newUser) {
-      if (newUser) {
-        req.login(newUser);
-        console.log('Logged in user: ', newUser.email);
-        res.redirect('/users/' + newUser._id);
+      if (err) {
+        res.render('welcome.ejs',
+          { view: 'signup', data: { signupAlert: err.errmsg }, status: 'error' });
+        // validation(s) failed; add a flash mesg here
+        // res.redirect('/signup');
       }
-      else {  // validation(s) failed; add a flash mesg here
-        res.redirect('/signup');
-      }
+      req.login(newUser);
+      console.log('Logged in user: ', newUser.email);
+      console.log('req.session: ', req.session);
+      res.redirect('/users/' + newUser._id);
     }
   );
 });
