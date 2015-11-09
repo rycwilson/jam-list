@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
 // mongoose.set('debug', true);
 
-mongoose.connect('mongodb://localhost/jam_list', function(error) {
+mongoose.connect(process.env.MONGOLAB_URI ||
+                 process.env.MONGOHQ_URL ||
+                 'mongodb://localhost/jam_list', function (error) {
   if (error) console.log(error);
 });
 
