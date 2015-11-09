@@ -1,6 +1,6 @@
 {
   "name": "jam-list",
-  "main": "index.js",
+  "main": "server.js",
   "version": "0.0.0",
   "authors": [
     "rycwilson <rycwilson@gmail.com>"
@@ -9,9 +9,7 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "bower_components"
   ],
   "dependencies": {
     "bootstrap": "~3.3.4",

@@ -11,23 +11,33 @@
   <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="/static/css/main.css">
 </head>
-<body class="container">
+<body>
+
+  <!-- <div class='container-fluid'> -->
+    <% if ( messages.info ) { %>
+      <div class="alert alert-info text-center" style='position:fixed; z-index:1; width:100%'>
+           <!-- style='z-index:1; position:fixed; width:30%'> -->
+        <%= messages.info %>
+      </div>
+    <% } %>
+  <!-- </div> -->
+
+  <div class="container">
 
     <div id="login-box"
          class="welcome show col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2"
-         style="margin-top:50px;">
-      <div class="panel panel-info">
+         style="margin-top:70px;">
+      <div class="panel panel-default">
         <div id="login-heading" class="panel-heading">
           <div class="panel-title">The Jam List</div>
           <!-- <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div> -->
         </div>
         <div class="panel-body" style="padding-top:30px">
-          <div id="login-alert" class="alert alert-danger col-sm-12"
-               style="display:none">
 
           <!-- flash messaging here -->
+          <!-- <div id="login-alert" class="alert alert-danger col-sm-12"
+               style="display:none"></div> -->
 
-          </div>
           <form id="login-form" role='form'>
           <!-- data-toggle="validator", data-delay="4000"> -->
           <!-- validator attributes on input elements below,
@@ -87,8 +97,8 @@
 
     <div id="signup-box"
          class="welcome hidden col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2"
-         style="margin-top:50px">
-      <div class="panel panel-info">
+         style="margin-top:70px">
+      <div class="panel panel-default">
         <div class="panel-heading">
           <div class="panel-title">
             Sign Up
@@ -182,9 +192,10 @@
             </a>
           </div>
         </div>
-      </div>
-    </div>  <!-- signup -->
+      </div>  <!-- panel -->
 
+    </div>  <!-- signup -->
+  </div>  <!-- container -->
 </body>
 </html>
 

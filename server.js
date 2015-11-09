@@ -2,7 +2,6 @@ var express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
     session = require('express-session'),
-    connFlash = require('connect-flash'),
     flash = require('express-flash'),
     ejs = require('ejs'),
     path = require('path'),
@@ -30,7 +29,7 @@ app.use("/", function (req, res, next) {
   // create a session
   req.login = function (user) {
     req.session.userId = user._id;
-    console.log('req.session.userId: ', req.session.userId);
+    console.log('logged in, req.session.userId: ', req.session.userId);
   };
   // fetches the user associated with the session
   req.getCurrentUser = function (cb) {
@@ -67,17 +66,21 @@ app.get('/users/:id', function (req, res) {
   // currentUser uses req.session.userId to identify user,
   // then sets req.user = user
   console.log('here we are');
-  req.currentUser(function (err, user) {
+  req.getCurrentUser(function (err, user) {
+    if (err) { return console.log(err); }
     res.send("Welcome, " + user.email);
   });
 });
 
 app.get('/home', function (req, res) {
-  // need a way to determine if user has visisted this page
-  // once already during login.  Count page views in req.session
+
   if (req.session.userId) {
+    // if we came here from welcome page, display a flash message
+    if (req.get('Referer') === 'http://localhost:3000/welcome') {
+      req.flash('success', 'Welcome back!');
+    }
     db.User.findOne({_id: req.session.userId}, function (err, user) {
-      res.render('home.ejs', { user: user.email, message: req.flash('login-ok') });
+      res.render('home.ejs', { user: user.email });
     });
   }
   else {
@@ -85,13 +88,14 @@ app.get('/home', function (req, res) {
   }
 });
 
+// this route handles ajax login requests, responds with the logged in
+// user or appropriate error code/message
 app.post('/sessions', function (req, res) {
   db.User.authenticate(req.body.user, function (err, authUser) {
     console.log('req.session (before login): ', req.session);
     if (authUser) {
       req.login(authUser);
       console.log('req.session (after login): ', req.session);
-      req.flash('login-ok', 'Signed in successfully!');
       res.status(200).send(authUser);
     }
     else switch (err) {
@@ -106,6 +110,7 @@ app.post('/sessions', function (req, res) {
 
 app.delete('/sessions', function (req, res) {
   req.logout();
+  req.flash('info', 'Goodbye');
   res.status(200).send();
 });
 

@@ -2,19 +2,8 @@ $(function() {
 
   View.init();
   Song.all();
-
-  $('.alert').slideDown(function() {
-    setTimeout(function() {
-      $('.alert').slideUp();
-    }, 3000);
-  });
-
-  // this changes underscore to use {{ }} delimiters
-  _.templateSettings = {
-    evaluate:    /\{\{(.+?)\}\}/g,
-    interpolate: /\{\{=(.+?)\}\}/g,
-    escape:      /\{\{-(.+?)\}\}/g
-  };
+  initFlash();
+  initUnderscore();
 
 });
 
@@ -71,6 +60,24 @@ Song.all = function () {
     View.render(data);
   });
 };
+
+function initFlash() {
+  $('.alert').slideDown(function () {
+    setTimeout(function () {
+      $('.alert').slideUp();
+    }, 3000);
+  });
+}
+
+function initUnderscore() {
+  // this changes underscore to use {{ }} delimiters
+  // (so doesn't clash with ejs)
+  _.templateSettings = {
+    evaluate:    /\{\{(.+?)\}\}/g,
+    interpolate: /\{\{=(.+?)\}\}/g,
+    escape:      /\{\{-(.+?)\}\}/g
+  };
+}
 
 
 

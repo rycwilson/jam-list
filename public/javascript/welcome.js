@@ -2,6 +2,7 @@ $(function() {
 
   initForm();
   initListeners();
+  initFlash();
 
 });
 
@@ -62,3 +63,11 @@ function initListeners () {
       });
   });
 }  // initListeners
+
+function initFlash() {
+  $('.alert').slideDown(function () {
+    setTimeout(function () {
+      $('.alert').slideUp();
+    }, 3000);
+  });
+}
