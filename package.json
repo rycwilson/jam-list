@@ -1,7 +1,10 @@
 {
   "name": "jam-list",
   "version": "1.0.0",
-  "description": "Express CRUD app for Song/Setlist management",
+  "description": "Node/Express CRUD app for Song/Setlist management",
+  "engines": {
+    "node": "4.2.1"
+  },
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
