@@ -62,6 +62,11 @@ function initListeners () {
         }
       });
   });
+
+  // Genius sign-in
+  $('#signin-genius').on('click', function () {
+    //hello
+  });
 }  // initListeners
 
 function initFlash() {

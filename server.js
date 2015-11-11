@@ -6,6 +6,21 @@ var express = require('express'),
     ejs = require('ejs'),
     path = require('path'),
     views = path.join(__dirname, 'views'),
+    env = require('dotenv').load(),
+    oauth2 = require('simple-oauth2')({
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      site: 'https://api.genius.com',
+      tokenPath: '/oauth/access_token',
+      authorizationPath: '/oauth/authorize'
+    }),
+    authorization_uri = oauth2.authCode.authorizeURL({
+      redirect_uri: 'localhost:3000/callback',
+      scope: 'me',
+      state: '3'
+      // state: '3(#0/!~'
+    }),
+    token,
     db = require('./models');
 
 // ejs templating
@@ -59,6 +74,27 @@ app.get('/', function (req, res) {
 // site welcome
 app.get('/welcome', function (req, res) {
   res.render('welcome.ejs', { view: 'login', data: null, status: null });
+});
+
+// sign in with genius
+app.get('/auth', function (req, res) {
+  console.log('/auth');
+  res.redirect(authorization_uri);
+});
+
+// Callback service parsing the authorization token and asking for the access token
+app.get('/callback', function (req, res) {
+  var code = req.query.code;
+  console.log('/callback');
+  oauth2.authCode.getToken({
+    code: code,
+    redirect_uri: 'localhost:3000/callback'
+  }, saveToken);
+
+  function saveToken (error, result) {
+    if (error) { console.log('Access Token Error', error.message); }
+    token = oauth2.accessToken.create(result);
+  }
 });
 
 // user#show
