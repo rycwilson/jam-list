@@ -24,6 +24,7 @@
     "express-flash": "git://github.com/RGBboy/express-flash.git",
     "express-session": "^1.11.2",
     "mongoose": "^4.0.3",
-    "mongoose-repl": "^0.1.8"
+    "mongoose-repl": "^0.1.8",
+    "simple-oauth2": "^0.2.1"
   }
 }
