@@ -15,10 +15,10 @@ var express = require('express'),
       authorizationPath: '/oauth/authorize'
     }),
     authorization_uri = oauth2.authCode.authorizeURL({
-      redirect_uri: 'localhost:3000/callback',
+      redirect_uri: 'jam-list.herokuapp.com/callback',
       scope: 'me',
-      state: '3'
-      // state: '3(#0/!~'
+      // state: '3'
+      state: '3(#0/!~'
     }),
     token,
     db = require('./models');
@@ -88,7 +88,7 @@ app.get('/callback', function (req, res) {
   console.log('/callback');
   oauth2.authCode.getToken({
     code: code,
-    redirect_uri: 'localhost:3000/callback'
+    redirect_uri: 'jam-list.herokuapp.com/callback'
   }, saveToken);
 
   function saveToken (error, result) {
