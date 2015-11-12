@@ -1,18 +1,12 @@
-/*.navbar {
-  background-color: #27556C;
-}
-
-#nav-title {
+.navbar,
+.navbar-header > a,
+.nav > li.dropdown > a,
+.nav > li.dropdown.open > a,
+.nav > li.dropdown.open.active > a:hover,
+.nav > li.dropdown.open > ul.dropdown-menu > li > a:hover {
+  background-color: #286090;
   color: white;
 }
-
-#nav-dropdown {
-  color: white;
-}
-
-.navbar-default .navbar-nav>.open>a:focus  {
-    background-color: #27556C;
-}*/
 
 /*.alert {
   display: none;
@@ -47,3 +41,4 @@
   color: white;
   background-color: #27556C
 }*/
+

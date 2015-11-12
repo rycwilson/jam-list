@@ -60,18 +60,15 @@ View.init = function() {
     };
     $.get('/genius-search', newSong, function (geniusData, status) {
       if (geniusData.error) {
-        // TODO: render a "song not found" mesg
+        // TODO: render a "song not found" mesg, and offer suggestions
         return console.log('error: ', geniusData.error);
       }
-      // save the song to db
-      // TODO: add a 'geniusId' attribute to song model
-      console.log(geniusData);
+      // if found in genius api, save the song to db
       $.post('/songs', { song: { title: geniusData.title,
                                 artist: geniusData.artist,
                               geniusId: geniusData.id,
                              geniusUrl: geniusData.url } },
         function (data, status) {
-          console.log('song was created', data);
           // pass it as an array so _.each() can process it in template
           View.renderSongs([data]);
       });

@@ -8,16 +8,16 @@
   <script src='/vendor/underscore/underscore-min.js'></script>
   <script src='/static/javascript/app.js'></script>
   <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap-theme.min.css">
+  <!-- <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap-theme.min.css"> -->
   <link rel="stylesheet" href="static/css/main.css">
 </head>
 <body>
-  <nav class="navbar navbar-default">
+  <nav class="navbar navbar-static-top">
     <div class="container-fluid">
       <!-- <div class='row'> -->
         <div class='col-md-2'>
           <div class="navbar-header">
-            <a class="navbar-brand" id="nav-title" href="#">
+            <a class="navbar-brand" href="#">
               <strong>The Jam List</strong>
             </a>
           </div>
@@ -43,7 +43,7 @@
         <div class='col-md-2'>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" id='nav-dropdown' data-toggle="dropdown" role="button" aria-expanded="false"><%= user %><span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><%= user %><span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li id="sign-out"><a href="javascript:;">Sign out</a></li>
                 <li class="divider"></li>
@@ -138,7 +138,7 @@
         <!-- by default the iframe loads a placeholder, indicated by id = 0 -->
         <!-- when a song is clicked, this will be modified to the proper id,
           and iframe will be re-loaded -->
-        <iframe id='lyrics-iframe' name='lyrics' src="/lyrics/0" frameborder="0" style='width:100%'>
+        <iframe id='lyrics-iframe' name='lyrics' src="/lyrics/0" frameborder="0" style='width:100%; height:500px'>
         </iframe>
       </div>
 
