@@ -1,13 +1,18 @@
 var mongoose = require('mongoose');
 
 var songSchema = new mongoose.Schema({
+  geniusId: {
+    type: String
+  },
   title: {
     type: String,
     required: true
   },
   artist: {
     type: String,
-    default: "none specified"
+  },
+  geniusUrl: {
+    type: String
   },
   genre: {
     type: String,

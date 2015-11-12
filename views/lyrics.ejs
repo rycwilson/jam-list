@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lyrics</title>
+  <script src='/vendor/jquery/dist/jquery.min.js'></script>
+  <script src='/vendor/bootstrap/dist/js/bootstrap.min.js'></script>
+  <script src='/vendor/bootstrap-validator/dist/validator.min.js'></script>
+  <script src='/static/javascript/welcome.js'></script>
+  <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+
+  <div id='rg_embed_link_<%= id %>' class='rg_embed_link' data-song-id='<%= id %>'>
+    <a href='http://genius.com/Peter-gabriel-sledgehammer-lyrics'></a>
+  </div>
+
+  <script crossorigin src='//genius.com/songs/<%= id %>/embed.js'></script>
+
+</body>
+</html>

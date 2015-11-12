@@ -7,20 +7,8 @@ var express = require('express'),
     path = require('path'),
     views = path.join(__dirname, 'views'),
     env = require('dotenv').load(),
-    oauth2 = require('simple-oauth2')({
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      site: 'https://api.genius.com',
-      tokenPath: '/oauth/access_token',
-      authorizationPath: '/oauth/authorize'
-    }),
-    authorization_uri = oauth2.authCode.authorizeURL({
-      redirect_uri: 'jam-list.herokuapp.com/callback',
-      scope: 'me',
-      // state: '3'
-      state: '3(#0/!~'
-    }),
-    token,
+    api = require('genius-api'),
+    genius = new api(process.env.GENIUS_ACCESS_TOKEN),
     db = require('./models');
 
 // ejs templating
@@ -73,28 +61,13 @@ app.get('/', function (req, res) {
 
 // site welcome
 app.get('/welcome', function (req, res) {
+  genius.search('Rush').then(function (response) {
+    console.log('hits', response.hits);
+  });
+  genius.song(143142).then(function (response) {
+    console.log('song', response.song);
+  });
   res.render('welcome.ejs', { view: 'login', data: null, status: null });
-});
-
-// sign in with genius
-app.get('/auth', function (req, res) {
-  console.log('/auth');
-  res.redirect(authorization_uri);
-});
-
-// Callback service parsing the authorization token and asking for the access token
-app.get('/callback', function (req, res) {
-  var code = req.query.code;
-  console.log('/callback');
-  oauth2.authCode.getToken({
-    code: code,
-    redirect_uri: 'jam-list.herokuapp.com/callback'
-  }, saveToken);
-
-  function saveToken (error, result) {
-    if (error) { console.log('Access Token Error', error.message); }
-    token = oauth2.accessToken.create(result);
-  }
 });
 
 // user#show
@@ -109,7 +82,6 @@ app.get('/users/:id', function (req, res) {
 });
 
 app.get('/home', function (req, res) {
-
   if (req.session.userId) {
     // if we came here from welcome page, display a flash message
     if (req.get('Referer') === 'http://localhost:3000/welcome') {
@@ -124,8 +96,64 @@ app.get('/home', function (req, res) {
   }
 });
 
-// this route handles ajax login requests, responds with the logged in
-// user or appropriate error code/message
+app.get('/songs', function (req, res) {
+  db.Song.find({}, function (err, songs) {
+    if (err) { console.log(err); }
+    res.send(songs);
+  });
+});
+
+app.post('/songs', function (req, res) {
+  db.Song.create(req.body.song, function (err, song) {
+    if (err) { return console.log(err); }
+    res.send(song);
+  });
+});
+
+app.get('/genius-search', function (req, res) {
+  genius.search(req.query.title)
+    .then(function (response) {
+      if (response.hits.length) {
+        // print the hits to console
+        response.hits.forEach(function (hit, index) {
+          console.log(index, hit.result.title, hit.result.primary_artist.name);
+        });
+        // search the hits for title and artist match
+        matches = response.hits.filter(function (hit) {
+          return (hit.result.title.toLowerCase() === req.query.title.toLowerCase()
+            && hit.result.primary_artist.name.toLowerCase() === req.query.artist.toLowerCase());
+        });
+        // anything found?
+        if (matches.length) {
+          song = matches[0].result;
+          // respond with the genius data for the song
+          res.json({ id: song.id, title: song.title,
+                    url: song.url, artist: song.primary_artist.name });
+        }
+        else {
+          res.json({ error: 'Not found' });
+        }
+      }
+      else {  // no hits
+        res.json({ error: 'Not found' });
+      }
+    });
+});
+
+app.get('/lyrics/:geniusId', function (req, res) {
+  var geniusId = parseInt(req.params.geniusId, 10);
+  if (geniusId) {
+    res.render('lyrics.ejs', { id: geniusId });
+  }
+  else {
+    res.sendFile(path.join(views, 'lyrics-placeholder.html'));
+  }
+});
+
+/*
+  this route handles ajax login requests, responds with the logged in
+  user or appropriate error code/message
+*/
 app.post('/sessions', function (req, res) {
   db.User.authenticate(req.body.user, function (err, authUser) {
     console.log('req.session (before login): ', req.session);
@@ -163,22 +191,6 @@ app.post('/users', function (req, res) {
       console.log('Logged in user: ', newUser.email);
       console.log('req.session: ', req.session);
       res.redirect('/users/' + newUser._id);
-    }
-  );
-});
-
-app.get('/songs', function (req, res) {
-  db.Song.find({}, function (err, songs) {
-    if (err) { console.log(err); }
-    res.send(songs);
-  });
-});
-
-app.post('/songs', function (req, res) {
-  db.Song.create({ title: req.body.song.title, artist: req.body.song.artist },
-    function (err, song) {
-      if (err) { return console.log(err); }
-      res.send(song);
     }
   );
 });
