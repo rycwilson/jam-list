@@ -110,6 +110,21 @@ app.post('/songs', function (req, res) {
   });
 });
 
+app.delete('/songs/:id', function (req, res) {
+  db.Song.findByIdAndRemove(req.params.id, { select: '_id' },
+    function (err, song) {
+      if (err) {
+        res.status(500).send(err);
+      }
+      console.log('here is the song being removed: ', song);
+      // JSON response:
+      res.status(200).send(song);
+      // HTML response:
+      // res.redirect('/');
+    }
+  );
+});
+
 app.get('/genius-search', function (req, res) {
   genius.search(req.query.title)
     .then(function (response) {

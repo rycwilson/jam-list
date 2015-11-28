@@ -1,3 +1,21 @@
+// this part only required if list items are present at initialization
+// var options = {
+//     valueNames: ['title', 'artist']
+//   };
+
+// var options = {
+//   item: 'song-li'
+// };
+
+// var songsList = new List('songs-list', options);
+
+// var options = {
+//     valueNames: [ 'name', 'city' ]
+// };
+
+// var hackerList = new List('hacker-list', options);
+
+
 $(function() {
 
   View.init();
@@ -13,12 +31,12 @@ function View() { }
 View.renderSongs = function (songs) {
   console.log(songs);
   var songsTemplate = _.template($("#songs-template").html());
-  $("#songs-list").append(songsTemplate({ songs: songs }));
+  $("#songs-list ul").append(songsTemplate({ songs: songs }));
 };
 
 View.renderLyrics = function (song) {  // song = { id, url }
 
-  window.frames['lyrics'].location = '/lyrics/' + song.id; // references the name attribute
+  window.frames.lyrics.location = '/lyrics/' + song.id; // references the name attribute
 
   // Below, a couple of approaches that didn't work...
   /*
@@ -58,6 +76,8 @@ View.init = function() {
       title: $(this).find('#new-song-title').val(),
       artist: $(this).find('#new-song-artist').val()
     };
+    if (Song.geniusLookup)
+    Song.create(newSong);
     $.get('/genius-search', newSong, function (geniusData, status) {
       if (geniusData.error) {
         // TODO: render a "song not found" mesg, and offer suggestions
@@ -85,10 +105,26 @@ View.init = function() {
       View.renderLyrics({ id: $(this).data('genius-id'),
                          url: $(this).data('genius-url') });
     }
-    else {
-      // artist click
+    else if ($(this).hasClass('song-artist')) {
+      // artist
     }
-
+    else if ($(this).hasClass('song-delete')) {  // delete
+      if (confirm('Are you sure?')) {
+        $.ajax({
+          url: '/songs/' + $(this).data('id'),
+          method: 'delete',
+          context: $(this), /* keep the <a> tag as the context,
+                               otherwise context inside the callback
+                               is the jqXHR (AJAX) object */
+          success: function (data, status) {
+            $(this).closest('li').remove();
+            // if we just do this, page will have to be refreshed for
+            // element to actually be removed
+            // $(this).remove();
+          }
+        });
+      }
+    }
   });
 
   /*

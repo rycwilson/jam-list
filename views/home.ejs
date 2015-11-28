@@ -6,6 +6,7 @@
   <script src='/vendor/jquery/dist/jquery.min.js'></script>
   <script src='/vendor/bootstrap/dist/js/bootstrap.min.js'></script>
   <script src='/vendor/underscore/underscore-min.js'></script>
+  <script src='/vendor/list.js/dist/list.js'></script>
   <script src='/static/javascript/app.js'></script>
   <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
   <!-- <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap-theme.min.css"> -->
@@ -96,8 +97,31 @@
             </div>
           </form>
 
-          <ul id='songs-list' class='list-unstyled'
-              style='padding-left: 0px; margin-top: 20px'></ul>
+          <div id="hacker-list">
+            <ul class="list">
+              <li>
+                 <h3 class="name">Jonny</h3>
+                 <p class="city">Stockholm</p>
+              </li>
+              <li>
+                <h3 class="name">Jonas</h3>
+                <p class="city">Berlin</p>
+              </li>
+            </ul>
+          </div>
+
+          <div id='songs-list'>
+            <input class="search" placeholder="Search songs" />
+            <button class="sort btn btn-default" data-sort="title">
+              Sort by title
+            </button>
+            <button class="sort btn btn-default" data-sort="artist">
+              Sort by artist
+            </button>
+            <ul class='list' style='margin-top: 20px'>
+            </ul>
+          </div>
+          <script src="http://listjs.com/no-cdn/list.js"></script>
 
         </div>
 
@@ -155,20 +179,20 @@
 </body>
 </html>
 
-<!-- Songs template -->
+<!-- Songs underscore template -->
 <script type="text/template" id="songs-template">
   {{ _.each(songs, function (song) { }}
-    <li>
+    <li class='song-li'>
       <div class='col-md-5'>
-        <a class='song-title' href='javascript:;'
+        <a class='title song-title' href='javascript:;'
            data-genius-id={{= song.geniusId }}
            data-genius-url={{= song.geniusUrl }}>{{= song.title }}</a>
       </div>
       <div class='col-md-5'>
-        <a class='song-artist' href='javascript:;'>{{= song.artist }}</a>
+        <a class='artist song-artist' href='javascript:;'>{{= song.artist }}</a>
       </div>
       <div class='col-md-2'>
-        <a class='delete' data-id='{{= song._id }}' href='#'>
+        <a class='song-delete' data-id='{{= song._id }}' href='#'>
           <i class='glyphicon glyphicon-remove'></i>
         </a>
       </div>
